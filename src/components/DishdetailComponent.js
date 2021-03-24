@@ -22,7 +22,7 @@ function RenderDish({dish}){
     )
 }
 
-function RenderComments({comments,addComment, dishId}){
+function RenderComments({comments,postComment, dishId}){
     return(
         <div className="row">
             <div className="col-12">
@@ -43,7 +43,7 @@ function RenderComments({comments,addComment, dishId}){
                         }
                 </ul>
                 {
-                    <CommentForm addComment={addComment}
+                    <CommentForm postComment={postComment}
                     dishId={dishId}/>
                 }
             </div>
@@ -66,7 +66,7 @@ class CommentForm  extends React.Component{
         this.setState({isModalOpen:!this.state.isModalOpen});
     }
     handleSumbit(values){
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
         this.toggleModal();
     }
 
@@ -181,7 +181,7 @@ const  DishDetail = (props)=>{
                         <h4>Comments</h4>
                         {
                             <RenderComments comments={props.comments}
-                            addComment={props.addComment}
+                            postComment={props.postComment}
                             dishId={props.dish.id}  />
                         }
                     </div>
