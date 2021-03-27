@@ -1,30 +1,46 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
-function RenderLeaders({leaders}){
+import {baseUrl} from '../shared/baseUrl'
+import {Loading} from './LoadingComponent';
+import {Fade, Stagger} from 'react-animation-components';
+function RenderLeaders({leaders,isLoading,errMess}){
+    if (isLoading) {
+        return(
+                <Loading />
+        );
+    }
+    else if (errMess) {
+        return(
+                <h4>{errMess}</h4>
+        );
+    }
     return(
         <Media list>
-            {
-                leaders.map(leader=>{
-                    return (
-                        <Media key={leader.id}>
-                            <Media left className='mr-5 '>   
-                                <Media object src={leader.image}alt="leader" />
-                            </Media>
-                            <Media body>
-                                <Media heading >
-                                   <h4>{leader.name}</h4>
-                                   <h6>{leader.designation}</h6>
+            <Stagger in >
+                {
+                    leaders.map(leader=>{
+                        return (
+                            <Fade in>
+                                <Media key={leader.id}>
+                                    <Media left className='mr-5 '>   
+                                        <Media object src={baseUrl +leader.image}alt="leader" />
+                                    </Media>
+                                    <Media body>
+                                        <Media heading >
+                                        <h4>{leader.name}</h4>
+                                        <h6>{leader.designation}</h6>
+                                        </Media>
+                                        <p>
+                                            {leader.description}
+                                        </p>
+                                    </Media>
                                 </Media>
-                                <p>
-                                    {leader.description}
-                                </p>
-                            </Media>
-                        </Media>
-                    );
-                })
-            }
+                            </Fade>
+                        );
+                    })
+                }
+            </Stagger>
         </Media>
     );
 }
